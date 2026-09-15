@@ -23,18 +23,23 @@ cat = {
     '.tar' : 'Compactado'
 }
 
-for i in p.iterdir():
+sure = input("Create a Folder for each file type? (y/n)")
 
-    if i.is_file():
-        fileType = i.suffix
-        print(cat.get(fileType, "Desconhecido"), '->', i.name)   
+if sure == "y":
 
-    else:
-        print("Pasta ->" ,"/"+i.name)
+    for i in p.iterdir():
 
-    sure = input("Create a Folder for each file type? (y/n)")
-    
-    if sure == "y":
-        print(1)
+        if i.is_file():
+            fileType = i.suffix
+            category = cat.get(fileType, "Desconhecido")
+            print(category, '->', i.name)   
+
+            folder = p / category
+            folder.mkdir(exist_ok=True)
+
+            shutil.move(i, folder)
+
+        else:
+            print("Pasta ->" ,"/"+ i.name)
 
 
